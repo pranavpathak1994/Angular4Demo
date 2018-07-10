@@ -1,0 +1,77 @@
+<div class="container">
+    <form action='http://127.0.0.1:8080/myaction' class="form-horizontal" [formGroup]="myform" (ngSubmit)="onSubmit(myform.value)" novalidate>
+    <div class="form-group">
+        <label for="user" class="control-label">Username:</label>
+        <input type="text" name="user" class="form-control" [(ngModel)]="username" formControlName="user">
+        <div *ngIf = "user.invalid && user.touched">
+          <div style="color:Red" *ngIf = "user.errors?.required">Username is required</div>
+          <div style="color:Red" *ngIf = "user.errors?.minlength">Minimum length should be 5</div>
+        </div>
+    </div>
+  
+    <div class="form-group">
+        <label for="passwd" class="control-label">Password:</label>
+        <input type="password" name="passwd" class="form-control" [(ngModel)]="password" formControlName="passwd">
+        <div *ngIf = "passwd.invalid && passwd.touched">
+            <div style="color:Red" *ngIf = "passwd.errors?.required">Password is required</div>
+            <div style="color:Red" *ngIf = "passwd.errors?.minlength">Minimum length should be 6</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="contact" class="control-label">Contact number:</label>
+        <input type="text" name="contact" class="form-control" [(ngModel)]="number" formControlName="contact">
+        <div *ngIf = "contact.invalid && contact.touched">
+            <div style="color:Red" *ngIf = "contact.errors?.required">Contact number is required</div>
+            <div style="color:Red" *ngIf = "contact.errors?.pattern">Only numbers are allowed</div>
+            <div style="color:Red" *ngIf = "contact.errors?.minlength && !contact.errors?.pattern">Length should be 10</div>
+            <div style="color:Red" *ngIf = "contact.errors?.maxlength && !contact.errors?.pattern">Length should be 10</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="control-label">E-Mail Address:</label>
+        <input type="email" name="email" class="form-control" [(ngModel)]="mail" formControlName="email">
+        <div *ngIf = "email.invalid && email.touched">
+          <div style="color:Red" *ngIf = "email.errors?.required">Email is required</div>
+          <div style="color:Red" *ngIf = "email.errors?.pattern">The Email entered is invalid</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="city" class="control-label">City:</label>
+        <input type="text" name="city" class="form-control" [(ngModel)]="cityy" formControlName="city">
+        <div style="color:Red" *ngIf = "city.invalid && city.touched">
+          <div style="color:Red" *ngIf = "city.errors?.required">City is required</div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)=print(user.value,passwd.value,contact.value,email.value,city.value);init(); [disabled]="!myform.valid" >Submit</button>
+    <button type="button" class="btn btn-primary" (click)=cancel() [disabled]="!myform.valid">Cancel</button>
+</form>
+<br><br><br>
+
+
+<div>
+<table *ngIf="details.length" class="table table-striped table-bordered">
+    <tr >
+        <th>Username</th>
+        <th>Password</th>
+        <th>Contact Number</th>
+        <th>E-Mail</th>
+        <th>City</th>
+        <th>Update</th>
+    </tr>
+    <tr *ngFor="let detail of details ">
+        <td>{{detail.user}}</td>
+        <td>{{detail.passwd}}</td>
+        <td>{{detail.contact}}</td>
+        <td>{{detail.email}}</td>
+        <td>{{detail.city}}</td>
+        <td><button type="button" class="btn btn-primary" (click)=edit(detail)>EDIT</button>
+            <button type="button" class="btn btn-primary" (click)=delete(detail)>DELETE</button>
+        </td>
+    </tr>
+</table>
+</div>
+</div>
